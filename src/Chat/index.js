@@ -11,6 +11,7 @@ import ChatBubble from '../ChatFeed/index.js'
 
 import { Modal } from 'react-bootstrap';
 import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
+import { PageHeader } from 'react-bootstrap';
 
 const InstructionsModal = React.createClass({
   render() {
@@ -42,28 +43,20 @@ const InstructionsModal = React.createClass({
 const NavbarInstance = React.createClass({
   render() {
     return (
-      <Navbar inverse>
+      <Navbar fluid staticTop inverse>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">React-Bootstrap</a>
+            <a href="#">Reply Annotation</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="#">Link</NavItem>
-            <NavItem eventKey={2} href="#">Link</NavItem>
-            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Action</MenuItem>
-              <MenuItem eventKey={3.2}>Another action</MenuItem>
-              <MenuItem eventKey={3.3}>Something else here</MenuItem>
-              <MenuItem divider />
-              <MenuItem eventKey={3.3}>Separated link</MenuItem>
-            </NavDropdown>
+            <NavItem eventKey={1} href="#" onClick={() => this.props.instructions()}>Instructions</NavItem>
           </Nav>
           <Nav pullRight>
-            <NavItem eventKey={1} href="#" onClick={() => this.props.prev()}>Link Right</NavItem>
-            <NavItem eventKey={2} href="#" onClick={() => this.props.next()}>Link Right</NavItem>
+            <NavItem eventKey={1} href="#" onClick={() => this.props.prev()}>Previous Message</NavItem>
+            <NavItem eventKey={2} href="#" onClick={() => this.props.next()}>Next Message</NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -128,6 +121,8 @@ export default class Chat extends Component {
     if (cur_all_reply_messages.length > new_cur_message.message_key) {
       for (var i = 0; i < cur_all_reply_messages[new_cur_message.message_key].length; i++) {
         var reply_message_key = cur_all_reply_messages[new_cur_message.message_key][i];
+        var reply_message = all_messages[reply_message_key];
+        reply_message.type = new_cur_message.username == reply_message.username ? 0 : 1;
         new_reply_messages.push(all_messages[reply_message_key]);
       }
     } else {
@@ -255,56 +250,83 @@ export default class Chat extends Component {
 
     let instructionsClose = () => this.setState({ showInstructions: false });
 
+    var headerStyle = {
+      marginLeft: '10px',
+      marginTop: '0px',
+    };
+
     return (
-       <div style={outerDivStyle}>
-         <InstructionsModal show={this.state.showInstructions} onHide={instructionsClose} />
-         <NavbarInstance
-           prev={prev}
-           next={next}
-         />
-         <div style={mainStyle}>
-           <SplitPane split="vertical" minSize={340} defaultSize={980}>
-             <div style={divStyles}>
-               <h1>Message Feed</h1>
+      <div style={outerDivStyle}>
+        <InstructionsModal show={this.state.showInstructions} onHide={instructionsClose} />
+        <NavbarInstance
+          prev={prev}
+          next={next}
+          instructions={() => this.setState({ showInstructions: true })}
+        />
+        <div style={mainStyle}>
+          <SplitPane split="vertical" minSize={340} defaultSize={980}>
+            <div style={divStyles}>
+              <PageHeader style={headerStyle}><small>Message Feed</small></PageHeader>
+              <ChatFeed
+                addLabelledReply={this.state.addLabelledReply}
+                messages={this.state.messages.concat([this.state.cur_message])} 
+                is_typing={this.state.is_typing} 
+                bubbleStyles={{
+                  text: {
+                    fontSize: 18,
+                  },
+                  chatbubble: {
+                    maxWidth: 600,
+                  },
+                  userBubble: {
+                    backgroundColor: '#0084FF',
+                  }
+                }}
+              />
+            </div>
+            <div style={divStyles}>
+              <div>
+               <PageHeader style={headerStyle}><small>Current Message</small></PageHeader>
                <ChatFeed
-                 addLabelledReply={this.state.addLabelledReply}
-                 messages={this.state.messages.concat([this.state.cur_message])} 
-                 is_typing={this.state.is_typing} 
-                 bubbleStyles={{
-                   text: {
-                     fontSize: 18,
-                   },
-                   chatbubble: {
-                     maxWidth: 600,
-                   },
-                   userBubble: {
-                     backgroundColor: '#0084FF',
-                   }
-                 }}
-               />
-             </div>
-             <div style={divStyles}>
-               <h1>Reply Messages</h1>
-               <ChatFeed
-                 setAddLabelledReply={this.setAddLabelledReply.bind(this)}
-                 messages={this.state.reply_messages} 
-                 is_typing={this.state.is_typing} 
-                 bubbleStyles={{
-                   text: {
-                     fontSize: 18,
-                   },
-                   chatbubble: {
-                     maxWidth: 600,
-                   },
-                   userBubble: {
-                     backgroundColor: '#0084FF',
-                   }
-                 }}
-               />
-             </div>
-           </SplitPane>
-         </div>
-       </div>
+                  single={true}
+                  messages={[this.state.cur_message]}
+                  bubbleStyles={{
+                    text: {
+                      fontSize: 18,
+                    },
+                    chatbubble: {
+                      maxWidth: 600,
+                    },
+                    userBubble: {
+                      backgroundColor: '#0084FF',
+                    }
+                  }}
+                />
+                <PageHeader style={headerStyle}><small> </small></PageHeader>
+              </div>
+              <div className="replies">
+                <PageHeader style={headerStyle}><small>Selected Parent Messages</small></PageHeader>
+                <ChatFeed
+                  setAddLabelledReply={this.setAddLabelledReply.bind(this)}
+                  messages={this.state.reply_messages} 
+                  is_typing={this.state.is_typing} 
+                  bubbleStyles={{
+                    text: {
+                      fontSize: 18,
+                    },
+                    chatbubble: {
+                      maxWidth: 600,
+                    },
+                    userBubble: {
+                      backgroundColor: '#0084FF',
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          </SplitPane>
+        </div>
+      </div>
     )
   }
 }

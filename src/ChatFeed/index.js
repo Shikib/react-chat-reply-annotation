@@ -62,7 +62,7 @@ export default class ChatFeed extends Component {
 
     if (this.props.addLabelledReply) {
       if(recipient == 1) {
-        recipient = 2;
+        recipient = 0;
       }
       this.props.addLabelledReply(recipient, message, username, time, message_key);
     } else {
@@ -154,9 +154,11 @@ export default class ChatFeed extends Component {
       this._scrollToBottom()
     },10)
 
+    var className = this.props.single ? "" : "outer";
+
     return (
       <div className="chat-history">
-        <div ref="chat" className="outer">
+        <div ref="chat" className={className}>
           <div className="inner">
             {this._renderMessages(this.state.messages)}
           </div>
