@@ -4,6 +4,6 @@ import { Chat } from '../lib'
 
 console.log(Chat);
 render(
-  (<Chat/>),
+  React.createElement(Chat),
   document.getElementById('chat-ui')
 )

@@ -9,6 +9,35 @@ import Button from 'custom-react-button'
 import ChatFeed from '../ChatFeed/index.js'
 import ChatBubble from '../ChatFeed/index.js'
 
+import { Modal } from 'react-bootstrap';
+
+const InstructionsModal = React.createClass({
+  render() {
+    return (
+      <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>Wrapped Text</h4>
+          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={this.props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+});
+
 export default class Chat extends Component {
   constructor() {
     super()
@@ -41,7 +70,8 @@ export default class Chat extends Component {
       cur_message: {message_key: 0, username: 'John', time: '10:59 pm', message: "Hey there you0,", selected: true}, 
       reply_messages: [],
       all_reply_messages: [],
-      is_typing: false
+      is_typing: false,
+      showInstructions: false,
     }
   }
 
@@ -189,10 +219,14 @@ export default class Chat extends Component {
     var prev = this.previousMessage.bind(this);
     var next = this.nextMessage.bind(this);
 
+    let instructionsClose = () => this.setState({ showInstructions: false });
+
     return (
        <div style={outerDivStyle}>
+         <InstructionsModal show={this.state.showInstructions} onHide={instructionsClose} />
          <div style={headerStyle}>
            <div style={buttonStyle} onClick={() => prev()}>LEFT</div>
+           <div style={buttonStyle} onClick={() => this.setState({ showInstructions: true })}>INFO</div>
            <div style={buttonTwoStyle} onClick={() => next()}>RIGHT</div>
          </div>
          <SplitPane style={mainStyle} split="vertical" minSize={340} defaultSize={980}>

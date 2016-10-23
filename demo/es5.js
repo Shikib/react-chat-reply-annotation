@@ -11,4 +11,4 @@ var _lib = require('../lib');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 console.log(_lib.Chat);
-(0, _reactDom.render)(_react2.default.createElement(_lib.Chat, null), document.getElementById('chat-ui'));
+(0, _reactDom.render)(_react2.default.createElement(_lib.Chat), document.getElementById('chat-ui'));
