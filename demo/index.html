@@ -1,0 +1,58 @@
+<html>
+
+<head>
+<link rel="stylesheet" type="text/css" href="panes.css">
+<style>
+  html,
+  body {
+    font-family: "Open Sans";
+    margin: 0;
+  }
+  input {
+    border: none;
+    border-top: 1px solid #ddd;
+    font-size: 16px;
+    padding: 30px;
+    width: 100%;
+  }
+  input:focus {
+    outline: none;
+  }
+
+  .chat-history {
+    display: block;
+  }
+
+  .outer {
+    display: block;
+    height: 100%;
+    overflow: scroll;
+    position: relative;
+    margin-right: -15px;
+    margin-bottom: -15px;
+  }
+
+  .inner {
+    margin: 0 auto;
+    overflow-y: auto;
+  }
+
+  .inner > div {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  #chat-ui {
+    height: 100%;
+  }
+</style>
+</head>
+
+<body>
+  <aside>
+    <section>Test</section>
+  </aside>
+  <div id="chat-ui"></div>
+  <script src="./bundle.js"></script>
+</body>
+</html>
