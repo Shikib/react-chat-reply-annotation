@@ -10,6 +10,7 @@ import ChatFeed from '../ChatFeed/index.js'
 import ChatBubble from '../ChatFeed/index.js'
 
 import { Modal } from 'react-bootstrap';
+import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
 
 const InstructionsModal = React.createClass({
   render() {
@@ -34,6 +35,38 @@ const InstructionsModal = React.createClass({
           <Button onClick={this.props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
+    );
+  }
+});
+
+const NavbarInstance = React.createClass({
+  render() {
+    return (
+      <Navbar inverse>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <a href="#">React-Bootstrap</a>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav>
+            <NavItem eventKey={1} href="#">Link</NavItem>
+            <NavItem eventKey={2} href="#">Link</NavItem>
+            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+              <MenuItem eventKey={3.1}>Action</MenuItem>
+              <MenuItem eventKey={3.2}>Another action</MenuItem>
+              <MenuItem eventKey={3.3}>Something else here</MenuItem>
+              <MenuItem divider />
+              <MenuItem eventKey={3.3}>Separated link</MenuItem>
+            </NavDropdown>
+          </Nav>
+          <Nav pullRight>
+            <NavItem eventKey={1} href="#" onClick={() => this.props.prev()}>Link Right</NavItem>
+            <NavItem eventKey={2} href="#" onClick={() => this.props.next()}>Link Right</NavItem>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 });
@@ -201,7 +234,8 @@ export default class Chat extends Component {
     };
 
     var mainStyle = {
-      paddingTop: '50px'
+      marginTop: '-20px',
+      height: '94%',
     };
 
     var buttonStyle = {
@@ -224,53 +258,53 @@ export default class Chat extends Component {
     return (
        <div style={outerDivStyle}>
          <InstructionsModal show={this.state.showInstructions} onHide={instructionsClose} />
-         <div style={headerStyle}>
-           <div style={buttonStyle} onClick={() => prev()}>LEFT</div>
-           <div style={buttonStyle} onClick={() => this.setState({ showInstructions: true })}>INFO</div>
-           <div style={buttonTwoStyle} onClick={() => next()}>RIGHT</div>
+         <NavbarInstance
+           prev={prev}
+           next={next}
+         />
+         <div style={mainStyle}>
+           <SplitPane split="vertical" minSize={340} defaultSize={980}>
+             <div style={divStyles}>
+               <h1>Message Feed</h1>
+               <ChatFeed
+                 addLabelledReply={this.state.addLabelledReply}
+                 messages={this.state.messages.concat([this.state.cur_message])} 
+                 is_typing={this.state.is_typing} 
+                 bubbleStyles={{
+                   text: {
+                     fontSize: 18,
+                   },
+                   chatbubble: {
+                     maxWidth: 600,
+                   },
+                   userBubble: {
+                     backgroundColor: '#0084FF',
+                   }
+                 }}
+               />
+             </div>
+             <div style={divStyles}>
+               <h1>Reply Messages</h1>
+               <ChatFeed
+                 setAddLabelledReply={this.setAddLabelledReply.bind(this)}
+                 messages={this.state.reply_messages} 
+                 is_typing={this.state.is_typing} 
+                 bubbleStyles={{
+                   text: {
+                     fontSize: 18,
+                   },
+                   chatbubble: {
+                     maxWidth: 600,
+                   },
+                   userBubble: {
+                     backgroundColor: '#0084FF',
+                   }
+                 }}
+               />
+             </div>
+           </SplitPane>
          </div>
-         <SplitPane style={mainStyle} split="vertical" minSize={340} defaultSize={980}>
-           <div style={divStyles}>
-             <h1>Message Feed</h1>
-             <ChatFeed
-               addLabelledReply={this.state.addLabelledReply}
-               messages={this.state.messages.concat([this.state.cur_message])} 
-               is_typing={this.state.is_typing} 
-               bubbleStyles={{
-                 text: {
-                   fontSize: 18,
-                 },
-                 chatbubble: {
-                   maxWidth: 600,
-                 },
-                 userBubble: {
-                   backgroundColor: '#0084FF',
-                 }
-               }}
-             />
-           </div>
-           <div style={divStyles}>
-             <h1>Reply Messages</h1>
-             <ChatFeed
-               setAddLabelledReply={this.setAddLabelledReply.bind(this)}
-               messages={this.state.reply_messages} 
-               is_typing={this.state.is_typing} 
-               bubbleStyles={{
-                 text: {
-                   fontSize: 18,
-                 },
-                 chatbubble: {
-                   maxWidth: 600,
-                 },
-                 userBubble: {
-                   backgroundColor: '#0084FF',
-                 }
-               }}
-             />
-           </div>
-         </SplitPane>
        </div>
-
     )
   }
 }

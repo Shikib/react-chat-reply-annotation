@@ -135,15 +135,102 @@ var InstructionsModal = _react2.default.createClass({
   }
 });
 
+var NavbarInstance = _react2.default.createClass({
+  displayName: 'NavbarInstance',
+  render: function render() {
+    var _this = this;
+
+    return _react2.default.createElement(
+      _reactBootstrap.Navbar,
+      { inverse: true },
+      _react2.default.createElement(
+        _reactBootstrap.Navbar.Header,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Navbar.Brand,
+          null,
+          _react2.default.createElement(
+            'a',
+            { href: '#' },
+            'React-Bootstrap'
+          )
+        ),
+        _react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
+      ),
+      _react2.default.createElement(
+        _reactBootstrap.Navbar.Collapse,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Nav,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 1, href: '#' },
+            'Link'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 2, href: '#' },
+            'Link'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.NavDropdown,
+            { eventKey: 3, title: 'Dropdown', id: 'basic-nav-dropdown' },
+            _react2.default.createElement(
+              _reactBootstrap.MenuItem,
+              { eventKey: 3.1 },
+              'Action'
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.MenuItem,
+              { eventKey: 3.2 },
+              'Another action'
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.MenuItem,
+              { eventKey: 3.3 },
+              'Something else here'
+            ),
+            _react2.default.createElement(_reactBootstrap.MenuItem, { divider: true }),
+            _react2.default.createElement(
+              _reactBootstrap.MenuItem,
+              { eventKey: 3.3 },
+              'Separated link'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Nav,
+          { pullRight: true },
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 1, href: '#', onClick: function onClick() {
+                return _this.props.prev();
+              } },
+            'Link Right'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 2, href: '#', onClick: function onClick() {
+                return _this.props.next();
+              } },
+            'Link Right'
+          )
+        )
+      )
+    );
+  }
+});
+
 var Chat = function (_Component) {
   _inherits(Chat, _Component);
 
   function Chat() {
     _classCallCheck(this, Chat);
 
-    var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this));
+    var _this2 = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this));
 
-    _this.state = {
+    _this2.state = {
       messages: [],
       all_messages: [{ message_key: 0, username: 'John', time: '10:59 pm', message: "Hey there you0," }, // Gray bubble
       { message_key: 1, username: 'John', time: '10:59 pm', message: "What have you1,been up to?" }, { message_key: 2, username: 'John', time: '10:59 pm', message: "What have you2,been up to?" }, { message_key: 3, username: 'John', time: '10:59 pm', message: "What have you3,been up to?" }, { message_key: 4, username: 'John', time: '10:59 pm', message: "What have you4,been up to?" }, { message_key: 5, username: 'John', time: '10:59 pm', message: "What have you5,been up to?" }, { message_key: 6, username: 'John', time: '10:59 pm', message: "Hey there you6," }, // Gray bubble
@@ -154,7 +241,7 @@ var Chat = function (_Component) {
       is_typing: false,
       showInstructions: false
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(Chat, [{
@@ -264,7 +351,7 @@ var Chat = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var divStyles = {
         overflow: 'hidden'
@@ -286,7 +373,8 @@ var Chat = function (_Component) {
       };
 
       var mainStyle = {
-        paddingTop: '50px'
+        marginTop: '-20px',
+        height: '94%'
       };
 
       var buttonStyle = {
@@ -305,90 +393,73 @@ var Chat = function (_Component) {
       var next = this.nextMessage.bind(this);
 
       var instructionsClose = function instructionsClose() {
-        return _this2.setState({ showInstructions: false });
+        return _this3.setState({ showInstructions: false });
       };
 
       return _react2.default.createElement(
         'div',
         { style: outerDivStyle },
         _react2.default.createElement(InstructionsModal, { show: this.state.showInstructions, onHide: instructionsClose }),
+        _react2.default.createElement(NavbarInstance, {
+          prev: prev,
+          next: next
+        }),
         _react2.default.createElement(
           'div',
-          { style: headerStyle },
+          { style: mainStyle },
           _react2.default.createElement(
-            'div',
-            { style: buttonStyle, onClick: function onClick() {
-                return prev();
-              } },
-            'LEFT'
-          ),
-          _react2.default.createElement(
-            'div',
-            { style: buttonStyle, onClick: function onClick() {
-                return _this2.setState({ showInstructions: true });
-              } },
-            'INFO'
-          ),
-          _react2.default.createElement(
-            'div',
-            { style: buttonTwoStyle, onClick: function onClick() {
-                return next();
-              } },
-            'RIGHT'
-          )
-        ),
-        _react2.default.createElement(
-          _reactSplitPane2.default,
-          { style: mainStyle, split: 'vertical', minSize: 340, defaultSize: 980 },
-          _react2.default.createElement(
-            'div',
-            { style: divStyles },
+            _reactSplitPane2.default,
+            { split: 'vertical', minSize: 340, defaultSize: 980 },
             _react2.default.createElement(
-              'h1',
-              null,
-              'Message Feed'
-            ),
-            _react2.default.createElement(_index2.default, {
-              addLabelledReply: this.state.addLabelledReply,
-              messages: this.state.messages.concat([this.state.cur_message]),
-              is_typing: this.state.is_typing,
-              bubbleStyles: {
-                text: {
-                  fontSize: 18
-                },
-                chatbubble: {
-                  maxWidth: 600
-                },
-                userBubble: {
-                  backgroundColor: '#0084FF'
+              'div',
+              { style: divStyles },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Message Feed'
+              ),
+              _react2.default.createElement(_index2.default, {
+                addLabelledReply: this.state.addLabelledReply,
+                messages: this.state.messages.concat([this.state.cur_message]),
+                is_typing: this.state.is_typing,
+                bubbleStyles: {
+                  text: {
+                    fontSize: 18
+                  },
+                  chatbubble: {
+                    maxWidth: 600
+                  },
+                  userBubble: {
+                    backgroundColor: '#0084FF'
+                  }
                 }
-              }
-            })
-          ),
-          _react2.default.createElement(
-            'div',
-            { style: divStyles },
+              })
+            ),
             _react2.default.createElement(
-              'h1',
-              null,
-              'Reply Messages'
-            ),
-            _react2.default.createElement(_index2.default, {
-              setAddLabelledReply: this.setAddLabelledReply.bind(this),
-              messages: this.state.reply_messages,
-              is_typing: this.state.is_typing,
-              bubbleStyles: {
-                text: {
-                  fontSize: 18
-                },
-                chatbubble: {
-                  maxWidth: 600
-                },
-                userBubble: {
-                  backgroundColor: '#0084FF'
+              'div',
+              { style: divStyles },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Reply Messages'
+              ),
+              _react2.default.createElement(_index2.default, {
+                setAddLabelledReply: this.setAddLabelledReply.bind(this),
+                messages: this.state.reply_messages,
+                is_typing: this.state.is_typing,
+                bubbleStyles: {
+                  text: {
+                    fontSize: 18
+                  },
+                  chatbubble: {
+                    maxWidth: 600
+                  },
+                  userBubble: {
+                    backgroundColor: '#0084FF'
+                  }
                 }
-              }
-            })
+              })
+            )
           )
         )
       );
