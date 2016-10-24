@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "custom-react-button": "0.0.4",
+    "fs": "0.0.1-security",
     "react": "^15.3.1",
     "react-button": "^1.2.1",
     "react-dom": "^15.3.1",

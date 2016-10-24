@@ -13,6 +13,8 @@ import { Modal } from 'react-bootstrap';
 import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
 import { PageHeader } from 'react-bootstrap';
 
+import data from '../../data.json'
+
 const InstructionsModal = React.createClass({
   render() {
     return (
@@ -53,6 +55,7 @@ const NavbarInstance = React.createClass({
         <Navbar.Collapse>
           <Nav>
             <NavItem eventKey={1} href="#" onClick={() => this.props.instructions()}>Instructions</NavItem>
+            <NavItem eventKey={1} href="#" onClick={() => this.props.save()}>Save Annotation</NavItem>
           </Nav>
           <Nav pullRight>
             <NavItem eventKey={1} href="#" onClick={() => this.props.prev()}>Previous Message</NavItem>
@@ -66,34 +69,14 @@ const NavbarInstance = React.createClass({
 
 export default class Chat extends Component {
   constructor() {
+    var cur_message = data[0];
+    cur_message.selected = true;
     super()
     this.state = {
       messages : [
       ],
-      all_messages : [
-        {message_key: 0, username: 'John', time: '10:59 pm', message: "Hey there you0,"}, // Gray bubble
-        {message_key: 1, username: 'John', time: '10:59 pm', message: "What have you1,been up to?"},
-        {message_key: 2, username: 'John', time: '10:59 pm', message: "What have you2,been up to?"},
-        {message_key: 3, username: 'John', time: '10:59 pm', message: "What have you3,been up to?"},
-        {message_key: 4, username: 'John', time: '10:59 pm', message: "What have you4,been up to?"},
-        {message_key: 5, username: 'John', time: '10:59 pm', message: "What have you5,been up to?"},
-        {message_key: 6, username: 'John', time: '10:59 pm', message: "Hey there you6,"}, // Gray bubble
-        {message_key: 7, username: 'John', time: '10:59 pm', message: "What have you7,been up to?"},
-        {message_key: 8, username: 'John', time: '10:59 pm', message: "What have you8,been up to?"},
-        {message_key: 9, username: 'John', time: '10:59 pm', message: "What have you9,been up to?"},
-        {message_key: 10, username: 'Jack', time: '10:59 pm', message: "What have yo10 been up to?"},
-        {message_key: 11, username: 'John', time: '10:59 pm', message: "What have yo11 been up to?"},
-        {message_key: 12, username: 'Jack', time: '10:59 pm', message: "What have yo12 been up to?"},
-        {message_key: 13, username: 'John', time: '10:59 pm', message: "What have yo13 been up to?"},
-        {message_key: 14, username: 'Jack', time: '10:59 pm', message: "What have yo14 been up to?"},
-        {message_key: 15, username: 'John', time: '10:59 pm', message: "What have yo15 been up to?"},
-        {message_key: 16, username: 'Jack', time: '10:59 pm', message: "What have yo16 been up to?"},
-        {message_key: 17, username: 'Jack', time: '10:59 pm', message: "What have yo17 been up to?"},
-        {message_key: 18, username: 'John', time: '10:59 pm', message: "What have yo18 been up to?"},
-        {message: "This is the newest message", time: '11:00 pm', username: 'John', message_key: 19},
-        {message_key: 20, username: 'John', time: '10:59 pm', message: "NEW MESSAGE"},
-      ],
-      cur_message: {message_key: 0, username: 'John', time: '10:59 pm', message: "Hey there you0,", selected: true}, 
+      all_messages : data,
+      cur_message: cur_message,
       reply_messages: [],
       all_reply_messages: [],
       is_typing: false,
@@ -208,6 +191,10 @@ export default class Chat extends Component {
     this.setState({addLabelledReply: addLabelledReply});
   }
 
+  save() {
+    console.log(this.state.all_reply_messages);
+  }
+
   render() {
     var divStyles = {
       overflow: 'hidden',
@@ -247,6 +234,7 @@ export default class Chat extends Component {
 
     var prev = this.previousMessage.bind(this);
     var next = this.nextMessage.bind(this);
+    var save = this.save.bind(this);
 
     let instructionsClose = () => this.setState({ showInstructions: false });
 
@@ -255,6 +243,8 @@ export default class Chat extends Component {
       marginTop: '0px',
     };
 
+    console.log(data);
+
     return (
       <div style={outerDivStyle}>
         <InstructionsModal show={this.state.showInstructions} onHide={instructionsClose} />
@@ -262,6 +252,7 @@ export default class Chat extends Component {
           prev={prev}
           next={next}
           instructions={() => this.setState({ showInstructions: true })}
+          save={save}
         />
         <div style={mainStyle}>
           <SplitPane split="vertical" minSize={340} defaultSize={980}>
