@@ -1,7 +1,7 @@
 {
   "name": "react-chat-reply-annotation",
   "version": "0.0.1",
-  "description": "A tool to help with reply-based annotation of multiparticipant chats"
+  "description": "A tool to help with reply-based annotation of multiparticipant chats",
   "repository": "shikib/react-chat-reply-annotation",
   "main": "./lib/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "reactjs",
     "ui",
     "annotation",
-    "NLP",
+    "NLP"
   ],
   "author": "Shikib Mehri",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "react": "^15.3.1",
     "react-button": "^1.2.1",
     "react-dom": "^15.3.1",
+    "react-mousetrap-mixin": "^0.1.1",
     "react-sidebar": "^2.2.1",
     "react-split-pane": "^0.1.51"
   },

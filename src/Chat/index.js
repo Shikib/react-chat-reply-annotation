@@ -15,6 +15,8 @@ import { PageHeader } from 'react-bootstrap';
 
 import data from '../../data.json'
 
+import Mousetrap  from 'react-mousetrap-mixin';
+
 const InstructionsModal = React.createClass({
   render() {
     return (
@@ -82,6 +84,16 @@ export default class Chat extends Component {
       is_typing: false,
       showInstructions: false,
     }
+  }
+
+  componentDidMount() {
+    Mousetrap.bind(['left'], this.previousMessage.bind(this));
+    Mousetrap.bind(['right'], this.previousMessage.bind(this));
+  }
+
+  componentWillUnmount() {
+    Mousetrap.unbind(['left'], this.previousMessage);
+    Mousetrap.unbind(['right'], this.nextMessage);
   }
 
   nextMessage() {
