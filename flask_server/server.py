@@ -14,8 +14,9 @@ def save():
   data = json.loads(request.data)
   print data
   arr = data['all_reply_messages']
-  f = open('results.json', 'w')
+  f = open('results.json', 'a+')
   f.write(str(arr))
+  f.write("\n")
   f.close()
   return "Saved"
 
