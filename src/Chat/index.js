@@ -193,6 +193,18 @@ export default class Chat extends Component {
 
   save() {
     console.log(this.state.all_reply_messages);
+
+    fetch('http://localhost:5000/save', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        all_reply_messages: this.state.all_reply_messages,
+      }),
+    });
+
   }
 
   render() {
