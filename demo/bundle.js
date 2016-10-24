@@ -847,8 +847,8 @@ var ChatFeed = function (_Component) {
 
   _createClass(ChatFeed, [{
     key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      if (this.state.messages != this.props.messages) {
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevProps.messages != this.props.messages) {
         this.setState({
           messages: this.props.messages
         });
@@ -867,6 +867,7 @@ var ChatFeed = function (_Component) {
   }, {
     key: 'handleClick',
     value: function handleClick(recipient, message, username, time, message_key) {
+      console.log("!");
       if (this.props.no_click) {
         return;
       }

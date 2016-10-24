@@ -39,8 +39,8 @@ export default class ChatFeed extends Component {
     }
   }
 
-  componentDidUpdate() {
-    if(this.state.messages != this.props.messages) {
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.messages != this.props.messages) {
       this.setState({
         messages: this.props.messages
       });
