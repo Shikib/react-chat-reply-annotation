@@ -148,7 +148,7 @@ export default class ChatBubble extends Component {
       return (
         <div style={Object.assign({},styles.chatbubble, this.state.bubbleStyles.chatbubble, this.state.bubbleStyles.userBubble)}>
           <p style={Object.assign({},styles.uname)}>{this.props.username}</p>
-          <p style={Object.assign({},styles.p, this.state.bubbleStyles.text)}>{"!" + this.state.message}</p>
+          <p style={Object.assign({},styles.p, this.state.bubbleStyles.text)}>{this.state.message}</p>
           <p style={Object.assign({},styles.utime)}>{this.props.time}</p>
         </div>
       )
@@ -156,7 +156,7 @@ export default class ChatBubble extends Component {
       return (
         <div style={Object.assign({}, styles.chatbubble, styles.recipientChatbubble, this.state.bubbleStyles.chatbubble)} onClick={this.test.bind(this)}>
           <p style={Object.assign({},styles.rname)}>{this.props.username}</p>
-          <p style={Object.assign({},styles.rp, this.state.bubbleStyles.text)}>{"!" + this.state.message}</p>
+          <p style={Object.assign({},styles.rp, this.state.bubbleStyles.text)}>{this.state.message}</p>
           <p style={Object.assign({},styles.rtime)}>{this.props.time}</p>
         </div>
       )
@@ -164,7 +164,7 @@ export default class ChatBubble extends Component {
       return (
         <div style={Object.assign({}, styles.chatbubble, styles.rightRecipientChatbubble, this.state.bubbleStyles.chatbubble)} onClick={this.test.bind(this)}>
           <p style={Object.assign({},styles.rname)}>{this.props.username}</p>
-          <p style={Object.assign({},styles.rp, this.state.bubbleStyles.text)}>{"!" + this.state.message}</p>
+          <p style={Object.assign({},styles.rp, this.state.bubbleStyles.text)}>{this.state.message}</p>
           <p style={Object.assign({},styles.rtime)}>{this.props.time}</p>
         </div>
       )
@@ -172,7 +172,7 @@ export default class ChatBubble extends Component {
       return (
         <div style={Object.assign({},styles.chatbubble, this.state.bubbleStyles.chatbubble, this.state.bubbleStyles.userBubble)} onClick={this.test.bind(this)}>
           <p style={Object.assign({},styles.uname)}>{this.props.username}</p>
-          <p style={Object.assign({},styles.p, this.state.bubbleStyles.text)}>{"!" + this.state.message}</p>
+          <p style={Object.assign({},styles.p, this.state.bubbleStyles.text)}>{this.state.message}</p>
           <p style={Object.assign({},styles.utime)}>{this.props.time}</p>
         </div>
       )
