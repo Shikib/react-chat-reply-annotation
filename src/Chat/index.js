@@ -13,7 +13,7 @@ import { Modal } from 'react-bootstrap';
 import { Navbar, NavItem, NavDropdown, MenuItem, Nav } from 'react-bootstrap';
 import { PageHeader } from 'react-bootstrap';
 
-import data from '../../data.json'
+import data from '../../odata.json'
 
 import Mousetrap  from 'react-mousetrap-mixin';
 
@@ -22,19 +22,69 @@ const InstructionsModal = React.createClass({
     return (
       <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-lg">Modal heading</Modal.Title>
+          <Modal.Title id="contained-modal-title-lg">Annotation Instructions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Wrapped Text</h4>
-          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-          <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <h3>Introduction</h3>
+          <p>As an annotator using this application, you will spend somewhere between 1 - 2 hours, to manually identify all <strong>reply</strong> relationships for a given chat log.</p>
+          <p>Your annotation will be used to solve the problem of <em>Thread Disentanglement in Multiparticipant Chats</em>. Your annotation will also be published online for other research groups to use.</p>
+          <p>The chat corpus being used was taken from <a href="http://www.ling.ohio-state.edu/~elsner.14/resources/chat-manual.html">Elsner & Charniak</a>. The corpus is a recording of an IRC chat in late May 2007. It comes from the ##linux channel at http://freenode.net. </p>
+          <p>The rest of the instructions define what a <strong>reply</strong> relationship is and explain how to use the application.</p>
+
+          <h3>Reply Definition</h3>
+          <p>With our definition of a reply, a message is either a reply/continuation of a previous message or it is initiating a new topic of conversation.</p>
+
+          <p>To best define what a reply/continuation is, let's consider the chat log below. </p>
+
+          <img style={{width: '90%', marginBottom: '15px', marginTop: '15px'}} src="http://i.imgur.com/75f8jox.png" />
+
+          <p>The second message, sent by Jack, is replying to the previous message sent by John. Therefore, we would select <strong>John's message</strong> to be a potential parent message for Jack's message.</p>
+
+          <p>Brian's message is not a direct reply to any previous message. However, it was <em>prompted</em> by <strong>John/Jack's messages</strong>. Seeing the two previous messages discussing TV shows, led to Brian remembering he had not renewed his Netflix subscription. Since Brian's message was prompted by the previous two messages, we could select the two previous messages as potential parent messages for Brian's message.</p>
+
+          <p>Katie's message is a completely new topic of conversation. Her message was not prompted/brought about by any of the previous messages in the chat log. Therefore we would not select any replies for it. </p>
+
+          <p>Jenny's first message (10:33:05) is a reply to <strong>Brian's message</strong>, as indicated by the fact that she mentioned him by name in her message.</p>
+
+          <p>Jenny's second message (10:33:15) is a reply to <strong>Katie's message</strong>. </p>
+
+          <p>Jenny's third message (10:33:20) is another reply to <strong>Katie's message</strong>. However, this message can also be thought of as a <strong>continuation</strong> of her previous message (10:33:15). Therefore, when selecting parent messages for this message, we can select Katie's message, Jenny's second message or both. </p>
+
+          <p>The final message by Katie is a correction of her previous message. This message is a <strong>continuation</strong> of Katie's previous message, therefore we would select that message as the reply for this message.</p>
+
+          <p>Please make sure that the explanations make sense and ask any questions if there's anything you don't understand.</p>
+
+          <p>Identifying replies is occasionally ambiguous and sometimes there's no right anwser. Nonetheless, please <strong>try your best</strong> and ensure that you consider each message carefully.</p>
+
+          <h3>Using the Application</h3>
+
+          <p>With this application, you will iterate through a chat log of messages. For every message, you will need to select all messages that the message is a reply to.</p>
+
+          <p>Another way of saying this, is that you want to find the <em>parent</em> message for every given message.</p>
+
+          <p>In the top-right, you see a single message bubble. That is the current message. This message also appears at the end of the message stream.</p>
+          
+          <p>The current message, is the message that you're currently finding parent messages for.</p>
+
+          <p>In the bottom-right, you see a list of messages (initially empty). This list of messages represents all of the parent messages for the <em>current message</em>.</p>
+
+          <p>In the left, you see all of the messages that were sent before (and including) the current message.</p>
+
+          <p>You can click on any message in the left message view, to select it as a parent message. Clicking a message will add it to the view on the right hand side.</p>
+
+          <p>If you accidentally added a message as a parent, you can simply re-click it to remove it from the list of parent messages.</p>
+
+          <p>When you're done selecting all of the parent messages for a given message, click the <em>Next Message</em> button in the top right, to move on to the next message.</p>
+
+          <p>If you ever want to go back to a message that you already annotated, you can click the <em>Previous Message</em> button to do that.</p>
+
+          <p>When you're done, you can click the <em>Save Annotation</em> button in the top left. It's also reccomended that you click the button occasionally to save your progress.</p>
+
+          <p>If you ever need to review these instructions, please click the <em>Instructions</em> button in the top left.</p>
+
+          <p>Please make sure to read these instructions carefully. If you don't understand anything about how to use the application, please ask.</p>
+
+          <p>You should now perform a quick trial run, to ensure you know how to use the application, and that everything is working properly. Please ask for further instructions.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>
